@@ -9,7 +9,6 @@ import (
 )
 
 func main() {
-    // Database initialiseren BINNEN main()
     err := database.Connect()
     if err != nil {
         panic("Database verbinding mislukt: " + err.Error())
