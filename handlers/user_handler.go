@@ -12,7 +12,7 @@ import (
 )
 
 type UserHandler struct {
-    DB *gorm.DB  // Pointer naar GORM database instance
+    DB *gorm.DB
 }
 
 // GetUsers haalt alle users op uit de database
@@ -41,7 +41,6 @@ func (h *UserHandler) CreateUser(c *gin.Context) {
 	var existingUser models.User
     checkResult := h.DB.Where("email = ?", req.Email).First(&existingUser)
     if checkResult.Error == nil {
-        // User gevonden = email bestaat al
         c.JSON(http.StatusConflict, gin.H{"error": "Email already exists"})
         return
     }
@@ -56,7 +55,6 @@ func (h *UserHandler) CreateUser(c *gin.Context) {
         Name:     req.Name,
         Email:    req.Email,
         Password: string(hashedPassword),
-        // CreatedAt wordt automatisch gevuld door GORM
     }
     
     createResult := h.DB.Create(&newUser)
